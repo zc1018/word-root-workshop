@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>词根索引 - 词根词缀记忆工坊</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/minimal.css">
+
+  <style>
+    /* 筛选器样式 */
+    .filter-bar {
+      position: sticky;
+      top: 60px;
+      z-index: 10;
+      background: white;
+      border-bottom: 1px solid var(--color-border);
+      padding: 16px 0;
+      margin-bottom: 32px;
+    }
+
+    .filter-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .search-box {
+      flex: 0 0 auto;
+      width: 280px;
+      position: relative;
+    }
+
+    .search-box input {
+      width: 100%;
+      padding: 10px 16px 10px 40px;
+      border: 1px solid var(--color-border);
+      border-radius: 8px;
+      font-size: 0.9375rem;
+      transition: all 200ms ease;
+    }
+
+    .search-box input:focus {
+      outline: none;
+      border-color: var(--color-accent);
+      box-shadow: 0 0 0 3px rgba(251, 191, 36, 0.1);
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--color-text-secondary);
+      width: 20px;
+      height: 20px;
+    }
+
+    .filter-tabs {
+      display: flex;
+      gap: 8px;
+      background: var(--color-bg-secondary);
+      padding: 4px;
+      border-radius: 8px;
+    }
+
+    .filter-tab {
+      padding: 8px 16px;
+      border: none;
+      background: transparent;
+      border-radius: 6px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--color-text-secondary);
+      cursor: pointer;
+      transition: all 200ms ease;
+    }
+
+    .filter-tab:hover {
+      background: white;
+      color: var(--color-text);
+    }
+
+    .filter-tab.active {
+      background: white;
+      color: var(--color-text);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    .stats-bar {
+      font-size: 0.875rem;
+      color: var(--color-text-secondary);
+      white-space: nowrap;
+    }
+
+    /* 词根卡片网格 */
+    .roots-grid {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 32px 24px 96px;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
+    .root-card {
+      background: white;
+      border: 1px solid var(--color-border);
+      border-radius: 12px;
+      padding: 20px;
+      cursor: pointer;
+      transition: all 200ms ease;
+    }
+
+    .root-card:hover {
+      border-color: var(--color-accent);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      transform: translateY(-2px);
+    }
+
+    .root-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 12px;
+    }
+
+    .root-name {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--color-text);
+      font-family: 'Courier New', monospace;
+    }
+
+    .root-origin {
+      font-size: 0.75rem;
+      color: var(--color-text-secondary);
+      background: var(--color-bg-secondary);
+      padding: 4px 8px;
+      border-radius: 4px;
+    }
+
+    .root-meaning {
+      font-size: 0.9375rem;
+      color: var(--color-text-secondary);
+      margin-bottom: 12px;
+    }
+
+    .root-examples {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .example-tag {
+      font-size: 0.8125rem;
+      color: var(--color-text-secondary);
+      background: var(--color-bg-secondary);
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-family: 'Courier New', monospace;
+    }
+
+    .root-id {
+      font-size: 0.75rem;
+      color: var(--color-text-tertiary);
+      margin-top: 8px;
+      text-align: right;
+    }
+
+    /* 空状态 */
+    .empty-state {
+      max-width: 600px;
+      margin: 96px auto;
+      text-align: center;
+      color: var(--color-text-secondary);
+    }
+
+    .empty-state h3 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--color-text);
+      margin-bottom: 12px;
+    }
+
+    /* 响应式 */
+    @media (max-width: 768px) {
+      .filter-container {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .search-box {
+        order: 1;
+      }
+
+      .filter-tabs {
+        order: 2;
+      }
+
+      .stats-bar {
+        order: 3;
+        text-align: center;
+      }
+
+      .roots-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 导航 -->
+  <nav class="nav">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+          <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+        </svg>
+        词根词缀记忆工坊
+      </a>
+      <div class="nav-links">
+        <a href="learn.html" class="nav-link">学习</a>
+        <a href="flashcard.html" class="nav-link">闪卡</a>
+        <a href="roots.html" class="nav-link active">索引</a>
+        <a href="progress.html" class="nav-link">进度</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- 主内容区 -->
+  <main style="padding-top: 80px;">
+    <!-- 筛选栏 -->
+    <div class="filter-bar">
+      <div class="filter-container">
+        <!-- 搜索框 -->
+        <div class="search-box">
+          <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <path d="m21 21-4.35-4.35"></path>
+          </svg>
+          <input type="text" id="searchInput" placeholder="搜索..." />
+        </div>
+
+        <!-- 分类筛选 -->
+        <div class="filter-tabs">
+          <button class="filter-tab active" data-filter="all">全部</button>
+          <button class="filter-tab" data-filter="prefix">前缀</button>
+          <button class="filter-tab" data-filter="root">词根</button>
+          <button class="filter-tab" data-filter="suffix">后缀</button>
+        </div>
+
+        <!-- 统计 -->
+        <div class="stats-bar">
+          显示 <span id="displayCount">300</span> / 300
+        </div>
+      </div>
+    </div>
+
+    <!-- 词根卡片网格 -->
+    <div class="roots-grid" id="rootsGrid">
+      <!-- 动态生成 -->
+    </div>
+
+    <!-- 空状态 -->
+    <div class="empty-state" id="emptyState" style="display: none;">
+      <h3>未找到匹配的词根</h3>
+      <p>试试搜索其他关键词或切换分类</p>
+    </div>
+  </main>
+
+  <script src="js/wordData.js"></script>
+  <script src="js/roots.js"></script>
+
+</body>
+</html>

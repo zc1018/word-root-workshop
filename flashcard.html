@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>闪卡模式 - 词根词缀记忆工坊</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/minimal.css">
+
+  <style>
+    .flashcard-container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 96px 24px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .flashcard {
+      width: 100%;
+      height: 500px;
+      perspective: 1000px;
+      margin-bottom: 48px;
+    }
+
+    .flashcard-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      text-align: center;
+      transition: transform 0.6s;
+      transform-style: preserve-3d;
+      cursor: pointer;
+    }
+
+    .flashcard.flipped .flashcard-inner {
+      transform: rotateY(180deg);
+    }
+
+    .flashcard-front, .flashcard-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      border-radius: 16px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 48px;
+      background: white;
+      border: 2px solid var(--color-border);
+    }
+
+    .flashcard-front {
+      background: linear-gradient(135deg, #FBBF24 0%, #F59E0B 100%);
+      border: none;
+    }
+
+    .flashcard-back {
+      transform: rotateY(180deg);
+    }
+
+    .flashcard-root {
+      font-size: 5rem;
+      font-weight: 700;
+      font-family: 'Courier New', monospace;
+      color: var(--color-text);
+      margin-bottom: 24px;
+      letter-spacing: -0.02em;
+    }
+
+    .flashcard-front .flashcard-root {
+      color: white;
+      text-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    .flashcard-meaning {
+      font-size: 2rem;
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.9);
+      margin-bottom: 16px;
+    }
+
+    .flashcard-origin {
+      font-size: 1.25rem;
+      color: rgba(255, 255, 255, 0.7);
+      background: rgba(255, 255, 255, 0.2);
+      padding: 8px 16px;
+      border-radius: 8px;
+    }
+
+    .flashcard-description {
+      font-size: 1.125rem;
+      line-height: 1.8;
+      color: var(--color-text-secondary);
+      margin-bottom: 24px;
+      max-height: 200px;
+      overflow-y: auto;
+    }
+
+    .flashcard-examples {
+      width: 100%;
+      max-height: 180px;
+      overflow-y: auto;
+      margin-top: 16px;
+    }
+
+    .flashcard-example {
+      font-size: 1rem;
+      color: var(--color-text);
+      margin-bottom: 12px;
+      padding: 12px;
+      background: var(--color-bg-secondary);
+      border-radius: 8px;
+      text-align: left;
+    }
+
+    .flashcard-example strong {
+      color: var(--color-accent);
+      font-family: 'Courier New', monospace;
+    }
+
+    .flashcard-controls {
+      display: flex;
+      gap: 24px;
+      align-items: center;
+    }
+
+    .flashcard-btn {
+      padding: 16px 32px;
+      border-radius: 12px;
+      font-size: 1.125rem;
+      font-weight: 600;
+      border: 2px solid var(--color-border);
+      background: white;
+      color: var(--color-text);
+      cursor: pointer;
+      transition: all 200ms ease;
+    }
+
+    .flashcard-btn:hover {
+      border-color: var(--color-accent);
+      background: var(--color-bg-hover);
+    }
+
+    .flashcard-btn.primary {
+      background: var(--color-accent);
+      border-color: var(--color-accent);
+      color: var(--color-text);
+    }
+
+    .flashcard-btn.primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(251, 191, 36, 0.3);
+    }
+
+    .flashcard-progress {
+      font-size: 1.125rem;
+      color: var(--color-text-secondary);
+      font-weight: 600;
+    }
+
+    .flashcard-hint {
+      margin-top: 24px;
+      font-size: 0.875rem;
+      color: var(--color-text-secondary);
+      text-align: center;
+    }
+
+    .flashcard-hint kbd {
+      display: inline-block;
+      padding: 4px 8px;
+      background: var(--color-bg-secondary);
+      border: 1px solid var(--color-border);
+      border-radius: 4px;
+      font-family: monospace;
+      margin: 0 4px;
+    }
+
+    @media (max-width: 768px) {
+      .flashcard {
+        height: 400px;
+      }
+
+      .flashcard-root {
+        font-size: 3.5rem;
+      }
+
+      .flashcard-meaning {
+        font-size: 1.5rem;
+      }
+
+      .flashcard-controls {
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .flashcard-btn {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 导航 -->
+  <nav class="nav">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+          <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+        </svg>
+        词根词缀记忆工坊
+      </a>
+      <div class="nav-links">
+        <a href="learn.html" class="nav-link">学习</a>
+        <a href="flashcard.html" class="nav-link active">闪卡</a>
+        <a href="roots.html" class="nav-link">索引</a>
+        <a href="progress.html" class="nav-link">进度</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- 闪卡容器 -->
+  <div class="flashcard-container">
+
+    <!-- 闪卡 -->
+    <div class="flashcard" id="flashcard" onclick="flipCard()">
+      <div class="flashcard-inner">
+
+        <!-- 正面 -->
+        <div class="flashcard-front">
+          <div class="flashcard-root" id="frontRoot">-</div>
+          <div class="flashcard-meaning" id="frontMeaning">-</div>
+          <div class="flashcard-origin" id="frontOrigin">Latin</div>
+        </div>
+
+        <!-- 背面 -->
+        <div class="flashcard-back">
+          <div class="flashcard-root" id="backRoot" style="font-size: 3rem; margin-bottom: 16px;">-</div>
+          <div class="flashcard-description" id="backDescription">-</div>
+          <div class="flashcard-examples" id="backExamples">
+            <!-- 动态生成 -->
+          </div>
+
+          <!-- 复习按钮 -->
+          <div style="margin-top: 32px; display: flex; gap: 12px; justify-content: center;">
+            <button onclick="markAsKnown()" style="padding: 12px 24px; background: var(--color-accent); border: none; border-radius: 8px; font-weight: 600; color: var(--color-text); cursor: pointer; transition: all 200ms ease;">
+              认识 ✓
+            </button>
+            <button onclick="nextCard()" style="padding: 12px 24px; background: white; border: 2px solid var(--color-border); border-radius: 8px; font-weight: 600; color: var(--color-text); cursor: pointer; transition: all 200ms ease;">
+              继续练习
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- 控制按钮 -->
+    <div class="flashcard-controls">
+      <button class="flashcard-btn" onclick="prevCard()">
+        ← 上一个
+      </button>
+      <div class="flashcard-progress" id="flashcardProgress">1/300</div>
+      <button class="flashcard-btn primary" onclick="nextCard()">
+        下一个 →
+      </button>
+    </div>
+
+    <!-- 键盘提示 -->
+    <div class="flashcard-hint">
+      点击卡片翻转 • 使用 <kbd>←</kbd> <kbd>→</kbd> 切换 • <kbd>空格</kbd> 翻转
+    </div>
+
+  </div>
+
+  <script src="js/storage.js"></script>
+  <script src="js/wordData.js"></script>
+  <script>
+    let currentIndex = 0;
+    let isFlipped = false;
+
+    document.addEventListener('DOMContentLoaded', () => {
+      loadCard(currentIndex);
+      setupKeyboardControls();
+      updateMasteredCount();
+    });
+
+    function updateMasteredCount() {
+      const progress = StorageManager.getProgress();
+      const masteredCount = progress.masteredRoots.length;
+      document.getElementById('flashcardProgress').textContent = `${currentIndex + 1}/300 (已掌握: ${masteredCount})`;
+    }
+
+    function loadCard(index) {
+      if (index < 0) index = WordRoots.length - 1;
+      if (index >= WordRoots.length) index = 0;
+
+      currentIndex = index;
+      const root = WordRoots[index];
+
+      // 重置翻转状态
+      document.getElementById('flashcard').classList.remove('flipped');
+      isFlipped = false;
+
+      // 更新正面
+      document.getElementById('frontRoot').textContent = root.root;
+      document.getElementById('frontMeaning').textContent = root.meaning;
+      document.getElementById('frontOrigin').textContent = root.origin;
+
+      // 更新背面
+      document.getElementById('backRoot').textContent = root.root;
+      document.getElementById('backDescription').textContent = root.description;
+
+      // 更新例词
+      const examplesHtml = root.examples.slice(0, 3).map(ex => `
+        <div class="flashcard-example">
+          <strong>${ex.word}</strong> = ${ex.meaning}
+        </div>
+      `).join('');
+      document.getElementById('backExamples').innerHTML = examplesHtml;
+
+      // 更新进度
+      updateMasteredCount();
+    }
+
+    function markAsKnown() {
+      const root = WordRoots[currentIndex];
+      const progress = StorageManager.markRootAsMastered(root.id);
+
+      // 显示简短确认动画
+      const card = document.getElementById('flashcard');
+      card.style.opacity = '0.5';
+      setTimeout(() => {
+        card.style.opacity = '1';
+        nextCard();
+      }, 300);
+    }
+
+    function flipCard() {
+      const card = document.getElementById('flashcard');
+      card.classList.toggle('flipped');
+      isFlipped = !isFlipped;
+    }
+
+    function nextCard() {
+      loadCard(currentIndex + 1);
+    }
+
+    function prevCard() {
+      loadCard(currentIndex - 1);
+    }
+
+    function setupKeyboardControls() {
+      document.addEventListener('keydown', (e) => {
+        switch(e.key) {
+          case 'ArrowLeft':
+            e.preventDefault();
+            prevCard();
+            break;
+          case 'ArrowRight':
+            e.preventDefault();
+            nextCard();
+            break;
+          case ' ':
+            e.preventDefault();
+            flipCard();
+            break;
+        }
+      });
+    }
+
+    // 触摸滑动支持
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    document.getElementById('flashcard').addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+    });
+
+    document.getElementById('flashcard').addEventListener('touchend', (e) => {
+      touchEndX = e.changedTouches[0].screenX;
+      handleSwipe();
+    });
+
+    function handleSwipe() {
+      const swipeThreshold = 50;
+      const diff = touchStartX - touchEndX;
+
+      if (Math.abs(diff) > swipeThreshold) {
+        if (diff > 0) {
+          // 向左滑动 - 下一个
+          nextCard();
+        } else {
+          // 向右滑动 - 上一个
+          prevCard();
+        }
+      }
+    }
+  </script>
+
+</body>
+</html>

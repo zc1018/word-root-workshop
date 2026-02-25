@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>学习 - 词根词缀记忆工坊</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/minimal.css">
+
+  <style>
+    .quiz-option:hover:not(:disabled) {
+      border-color: var(--color-text) !important;
+      background: var(--color-bg-hover) !important;
+    }
+
+    .quiz-option:disabled {
+      cursor: not-allowed;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 极简导航 -->
+  <nav class="nav">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+          <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+        </svg>
+        词根词缀记忆工坊
+      </a>
+      <div class="nav-links">
+        <a href="learn.html" class="nav-link active">学习</a>
+        <a href="flashcard.html" class="nav-link">闪卡</a>
+        <a href="roots.html" class="nav-link">索引</a>
+        <a href="progress.html" class="nav-link">进度</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- 进度信息条 -->
+  <div style="position: sticky; top: 60px; z-index: 9; background: var(--color-bg-secondary); border-bottom: 1px solid var(--color-border); padding: 12px 24px;">
+    <div class="container" style="max-width: 900px; display: flex; gap: 32px; justify-content: center; align-items: center; flex-wrap: wrap;">
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <span style="color: var(--color-text-secondary); font-size: 0.875rem;">当前</span>
+        <span id="currentIndexText" style="color: var(--color-text); font-weight: 600; font-size: 1rem;">1/300</span>
+      </div>
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <span style="color: var(--color-text-secondary); font-size: 0.875rem;">已掌握</span>
+        <span id="masteredCountText" style="color: var(--color-accent); font-weight: 600; font-size: 1rem;">0</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 主内容 -->
+  <main style="padding-top: 120px; min-height: 100vh;">
+    <div class="container" style="max-width: 900px; padding-top: 64px; padding-bottom: 96px;">
+
+      <!-- 词根卡片 -->
+      <div class="card">
+
+        <!-- 加载状态 -->
+        <div id="loadingState">
+          <div style="text-align: center; padding: 48px 0; color: var(--color-text-secondary);">
+            加载中...
+          </div>
+        </div>
+
+        <!-- 词根内容 -->
+        <div id="rootContent" style="display: none;">
+
+          <!-- 词根标题区域 -->
+          <div style="text-align: center; margin-bottom: 48px; padding-bottom: 32px; border-bottom: 1px solid var(--color-border);">
+            <h1 id="rootName" style="font-size: 3.5rem; font-weight: 700; font-family: 'Courier New', monospace; color: var(--color-text); margin-bottom: 16px; letter-spacing: -0.02em;">
+              spect
+            </h1>
+            <div style="display: flex; gap: 24px; justify-content: center; align-items: center; flex-wrap: wrap; font-size: 1rem; color: var(--color-text-secondary);">
+              <span id="rootOrigin" style="background: var(--color-bg-secondary); padding: 8px 16px; border-radius: 8px; font-weight: 500;">Latin</span>
+              <span id="rootMeaning" style="font-size: 1.5rem; font-weight: 600; color: var(--color-text);">看</span>
+            </div>
+          </div>
+
+          <!-- 词根说明 -->
+          <div style="margin-bottom: 48px;">
+            <h2 style="font-size: 1.5rem; font-weight: 600; color: var(--color-text); margin-bottom: 24px; display: flex; align-items: center; gap: 12px;">
+              <span style="content: ''; width: 4px; height: 24px; background: var(--color-accent); border-radius: 2px;"></span>
+              详细说明
+            </h2>
+            <p id="rootDescription" style="font-size: 1.125rem; line-height: 1.8; color: var(--color-text-secondary); background: var(--color-bg-secondary); padding: 24px; border-radius: 12px; margin: 0;">
+              spect 来自拉丁语 specere，意思是"看"。所有包含这个词根的单词都与"看"相关。
+            </p>
+          </div>
+
+          <!-- 例词列表 -->
+          <div style="margin-bottom: 48px;">
+            <h2 style="font-size: 1.5rem; font-weight: 600; color: var(--color-text); margin-bottom: 24px; display: flex; align-items: center; gap: 12px;">
+              <span style="content: ''; width: 4px; height: 24px; background: var(--color-accent); border-radius: 2px;"></span>
+              例词解析
+            </h2>
+            <div id="wordList" style="display: grid; gap: 20px;">
+              <!-- 动态生成 -->
+            </div>
+          </div>
+
+          <!-- 测试区域 -->
+          <div style="margin-bottom: 48px;">
+            <h2 style="font-size: 1.5rem; font-weight: 600; color: var(--color-text); margin-bottom: 24px; display: flex; align-items: center; gap: 12px;">
+              <span style="content: ''; width: 4px; height: 24px; background: var(--color-accent); border-radius: 2px;"></span>
+              小测试
+            </h2>
+
+            <div style="background: var(--color-bg-secondary); border-radius: 12px; padding: 32px;">
+              <div id="quizQuestion" style="font-size: 1.25rem; font-weight: 600; color: var(--color-text); margin-bottom: 24px;">
+                请选择正确的单词意思：
+              </div>
+
+              <div id="quizOptions" style="display: grid; gap: 12px;">
+                <!-- 动态生成选项 -->
+              </div>
+
+              <!-- 反馈区域 -->
+              <div id="feedbackArea" style="display: none; margin-top: 16px;">
+                <div id="correctFeedback" class="feedback success" style="display: none;">
+                  ✓ 答对了！继续保持
+                </div>
+                <div id="wrongFeedback" class="feedback error" style="display: none;">
+                  ✗ 再想想，你可以的
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 操作按钮 -->
+          <div id="nextButtonArea" style="display: none;">
+            <div style="display: flex; gap: 16px; justify-content: center;">
+              <a href="roots.html" class="btn">返回词根索引</a>
+              <button id="nextBtn" class="btn btn-primary">下一个词根 →</button>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </main>
+
+  <script src="js/storage.js"></script>
+  <script src="js/wordData.js"></script>
+  <script>
+    // 极简版学习逻辑
+    let currentRootIndex = 0;
+    let currentRoot = null;
+
+    document.addEventListener('DOMContentLoaded', () => {
+      initLearnPage();
+    });
+
+    function initLearnPage() {
+      const progress = StorageManager.getProgress();
+      currentRootIndex = progress.currentRootIndex || 0;
+      updateProgressDisplay();
+      loadRoot(currentRootIndex);
+    }
+
+    function updateProgressDisplay() {
+      const progress = StorageManager.getProgress();
+      document.getElementById('currentIndexText').textContent = `${currentRootIndex + 1}/300`;
+      document.getElementById('masteredCountText').textContent = progress.masteredRoots.length;
+    }
+
+    function loadRoot(index) {
+      if (index >= WordRoots.length) {
+        index = 0;
+      }
+
+      currentRoot = WordRoots[index];
+
+      document.getElementById('loadingState').style.display = 'block';
+      document.getElementById('rootContent').style.display = 'none';
+
+      setTimeout(() => {
+        renderRoot(currentRoot);
+        document.getElementById('loadingState').style.display = 'none';
+        document.getElementById('rootContent').style.display = 'block';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }, 300);
+    }
+
+    function renderRoot(root) {
+      document.getElementById('rootName').textContent = root.root;
+      document.getElementById('rootOrigin').textContent = root.origin;
+      document.getElementById('rootMeaning').textContent = root.meaning;
+      document.getElementById('rootDescription').textContent = root.description;
+
+      // 渲染例词（参考详情页样式）
+      const wordList = document.getElementById('wordList');
+      wordList.innerHTML = root.examples.map(example => {
+        const parts = [];
+        if (example.breakdown.prefix) {
+          parts.push(`<span style="padding: 6px 12px; border-radius: 6px; font-size: 0.875rem; font-weight: 600; font-family: 'Courier New', monospace; background: rgba(239, 68, 68, 0.1); color: #EF4444; border: 1px solid rgba(239, 68, 68, 0.2);">${example.breakdown.prefix}</span>`);
+        }
+        if (example.breakdown.root) {
+          parts.push(`<span style="padding: 6px 12px; border-radius: 6px; font-size: 0.875rem; font-weight: 600; font-family: 'Courier New', monospace; background: rgba(59, 130, 246, 0.1); color: #3B82F6; border: 2px solid rgba(59, 130, 246, 0.3);">${example.breakdown.root}</span>`);
+        }
+        if (example.breakdown.suffix) {
+          parts.push(`<span style="padding: 6px 12px; border-radius: 6px; font-size: 0.875rem; font-weight: 600; font-family: 'Courier New', monospace; background: rgba(245, 158, 11, 0.1); color: #F59E0B; border: 1px solid rgba(245, 158, 11, 0.2);">${example.breakdown.suffix}</span>`);
+        }
+
+        return `
+          <div style="background: white; border: 1px solid var(--color-border); border-radius: 12px; padding: 24px; transition: all 200ms ease;">
+            <div style="font-size: 1.5rem; font-weight: 700; font-family: 'Courier New', monospace; color: var(--color-text); margin-bottom: 12px;">${example.word}</div>
+            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px; flex-wrap: wrap;">
+              ${parts.join('<span style="color: var(--color-text-secondary); font-size: 1.25rem;">+</span>')}
+            </div>
+            <div style="font-size: 1rem; font-weight: 600; color: var(--color-text); margin-bottom: 8px;">${example.meaning}</div>
+            <div style="font-size: 0.9375rem; color: var(--color-text-secondary); line-height: 1.6;">${example.explanation}</div>
+          </div>
+        `;
+      }).join('');
+
+      // 渲染测试题
+      renderQuiz(root.quiz);
+    }
+
+    function renderQuiz(quiz) {
+      document.getElementById('quizQuestion').textContent = quiz.question;
+
+      const optionsContainer = document.getElementById('quizOptions');
+      optionsContainer.innerHTML = quiz.options.map((option, index) => `
+        <button class="quiz-option" data-index="${index}" onclick="checkAnswer(${index})" style="background: white; border: 2px solid var(--color-border); border-radius: 8px; padding: 16px 20px; font-size: 1rem; color: var(--color-text); cursor: pointer; transition: all 200ms ease; text-align: left;">
+          ${option}
+        </button>
+      `).join('');
+
+      document.getElementById('feedbackArea').style.display = 'none';
+      document.getElementById('correctFeedback').style.display = 'none';
+      document.getElementById('wrongFeedback').style.display = 'none';
+      document.getElementById('nextButtonArea').style.display = 'none';
+    }
+
+    function checkAnswer(selectedIndex) {
+      const quiz = currentRoot.quiz;
+      const isCorrect = selectedIndex === quiz.correctAnswer;
+
+      const options = document.querySelectorAll('.quiz-option');
+      options.forEach((btn, i) => {
+        btn.disabled = true;
+        btn.style.borderColor = '';
+        btn.style.background = '';
+
+        if (i === quiz.correctAnswer) {
+          btn.style.background = 'var(--color-accent)';
+          btn.style.borderColor = 'var(--color-accent)';
+          btn.style.color = 'var(--color-text)';
+          btn.style.fontWeight = '600';
+        } else if (i === selectedIndex && !isCorrect) {
+          btn.style.background = '#FEE2E2';
+          btn.style.borderColor = '#EF4444';
+          btn.style.color = '#DC2626';
+        }
+      });
+
+      document.getElementById('feedbackArea').style.display = 'block';
+
+      if (isCorrect) {
+        document.getElementById('correctFeedback').style.display = 'block';
+        document.getElementById('correctFeedback').style.background = 'rgba(251, 191, 36, 0.1)';
+        document.getElementById('correctFeedback').style.color = 'var(--color-text)';
+        document.getElementById('correctFeedback').style.border = '1px solid var(--color-accent)';
+        document.getElementById('correctFeedback').style.padding = '16px';
+        document.getElementById('correctFeedback').style.borderRadius = '8px';
+        document.getElementById('correctFeedback').style.fontWeight = '500';
+
+        document.getElementById('nextButtonArea').style.display = 'block';
+
+        const progress = StorageManager.markRootAsMastered(currentRoot.id);
+        updateProgressDisplay();
+
+        // 检查成就
+        const masteredCount = progress.masteredRoots.length;
+        if (masteredCount === 1) {
+          StorageManager.unlockAchievement('firstRoot');
+        } else if (masteredCount === 50) {
+          StorageManager.unlockAchievement('roots50');
+        } else if (masteredCount === 100) {
+          StorageManager.unlockAchievement('roots100');
+        }
+
+      } else {
+        document.getElementById('wrongFeedback').style.display = 'block';
+        document.getElementById('wrongFeedback').style.background = '#FEE2E2';
+        document.getElementById('wrongFeedback').style.color = '#DC2626';
+        document.getElementById('wrongFeedback').style.border = '1px solid #EF4444';
+        document.getElementById('wrongFeedback').style.padding = '16px';
+        document.getElementById('wrongFeedback').style.borderRadius = '8px';
+        document.getElementById('wrongFeedback').style.fontWeight = '500';
+        document.getElementById('wrongFeedback').innerHTML = `✗ 答错了。正确答案是：${quiz.options[quiz.correctAnswer]}`;
+
+        setTimeout(() => {
+          document.getElementById('nextButtonArea').style.display = 'block';
+        }, 800);
+      }
+    }
+
+    function nextRoot() {
+      currentRootIndex++;
+
+      const progress = StorageManager.getProgress();
+      progress.currentRootIndex = currentRootIndex;
+      StorageManager.saveProgress(progress);
+
+      loadRoot(currentRootIndex);
+    }
+
+    window.checkAnswer = checkAnswer;
+
+    document.getElementById('nextBtn')?.addEventListener('click', nextRoot);
+  </script>
+
+</body>
+</html>

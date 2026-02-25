@@ -1,0 +1,85 @@
+{
+  "version": 2,
+  "name": "word-root-workshop",
+  "builds": [
+    {
+      "src": "**/*.html",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "css/**",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "js/**",
+      "use": "@vercel/static"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/",
+      "dest": "/index.html"
+    },
+    {
+      "src": "/learn",
+      "dest": "/learn.html"
+    },
+    {
+      "src": "/roots",
+      "dest": "/roots.html"
+    },
+    {
+      "src": "/root-detail",
+      "dest": "/root-detail.html"
+    },
+    {
+      "src": "/challenge",
+      "dest": "/challenge.html"
+    },
+    {
+      "src": "/progress",
+      "dest": "/progress.html"
+    },
+    {
+      "src": "/flashcard",
+      "dest": "/flashcard.html"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "X-XSS-Protection",
+          "value": "1; mode=block"
+        }
+      ]
+    },
+    {
+      "source": "/css/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/js/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    }
+  ]
+}
