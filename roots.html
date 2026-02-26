@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="css/minimal.css">
+  <link rel="stylesheet" href="css/memphis.css">
 
   <style>
     /* 筛选器样式 */
@@ -219,6 +219,11 @@
 </head>
 <body>
 
+  <!-- 孟菲斯风格装饰元素 -->
+  <div class="memphis-decoration" style="position: fixed; top: 100px; right: 5%; width: 45px; height: 45px; background: #FF6B9D; border-radius: 50%; opacity: 0.6; z-index: 1; pointer-events: none;"></div>
+  <div class="memphis-decoration" style="position: fixed; bottom: 15%; left: 3%; width: 35px; height: 35px; background: #6BCB77; transform: rotate(45deg); opacity: 0.5; z-index: 1; pointer-events: none;"></div>
+  <div class="memphis-decoration" style="position: fixed; top: 50%; right: 2%; width: 0; height: 0; border-left: 18px solid transparent; border-right: 18px solid transparent; border-bottom: 32px solid #FFD93D; opacity: 0.6; z-index: 1; pointer-events: none;"></div>
+
   <!-- 导航 -->
   <nav class="nav">
     <div class="nav-container">
@@ -253,7 +258,8 @@
         </div>
 
         <!-- 分类筛选 -->
-        <div class="filter-tabs">
+        <div class="filter-tabs" style="position: relative;">
+          <div class="memphis-filter-decoration" style="position: absolute; top: -8px; left: 10px; width: 12px; height: 12px; background: #FF6B9D; border-radius: 50%;"></div>
           <button class="filter-tab active" data-filter="all">全部</button>
           <button class="filter-tab" data-filter="prefix">前缀</button>
           <button class="filter-tab" data-filter="root">词根</button>
@@ -268,7 +274,8 @@
     </div>
 
     <!-- 词根卡片网格 -->
-    <div class="roots-grid" id="rootsGrid">
+    <div class="roots-grid memphis-roots-grid" id="rootsGrid" style="position: relative;">
+      <div class="memphis-grid-decoration" style="position: absolute; top: -20px; right: 10%; width: 25px; height: 25px; background: #FFD93D; transform: rotate(45deg); z-index: 10; pointer-events: none;"></div>
       <!-- 动态生成 -->
     </div>
 

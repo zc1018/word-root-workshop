@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="css/minimal.css">
+  <link rel="stylesheet" href="css/memphis.css">
 
   <style>
     .flashcard-container {
@@ -212,6 +212,11 @@
 </head>
 <body>
 
+  <!-- 孟菲斯风格装饰元素 -->
+  <div class="memphis-decoration" style="position: fixed; top: 120px; right: 8%; width: 40px; height: 40px; background: #FF6B9D; border-radius: 50%; opacity: 0.6; z-index: 1; pointer-events: none;"></div>
+  <div class="memphis-decoration" style="position: fixed; bottom: 20%; left: 5%; width: 30px; height: 30px; background: #6BCB77; transform: rotate(45deg); opacity: 0.5; z-index: 1; pointer-events: none;"></div>
+  <div class="memphis-decoration" style="position: fixed; top: 30%; left: 3%; width: 0; height: 0; border-left: 18px solid transparent; border-right: 18px solid transparent; border-bottom: 32px solid #FFD93D; opacity: 0.6; z-index: 1; pointer-events: none;"></div>
+
   <!-- 导航 -->
   <nav class="nav">
     <div class="nav-container">
@@ -235,7 +240,9 @@
   <div class="flashcard-container">
 
     <!-- 闪卡 -->
-    <div class="flashcard" id="flashcard" onclick="flipCard()">
+    <div class="flashcard memphis-flashcard" id="flashcard" onclick="flipCard()" style="position: relative;">
+      <div class="memphis-flashcard-decoration" style="position: absolute; top: -15px; right: -15px; width: 40px; height: 40px; background: #FF6B9D; border-radius: 50%; z-index: 10; pointer-events: none;"></div>
+      <div class="memphis-flashcard-decoration" style="position: absolute; bottom: -12px; left: -12px; width: 30px; height: 30px; background: #FFD93D; transform: rotate(45deg); z-index: 10; pointer-events: none;"></div>
       <div class="flashcard-inner">
 
         <!-- 正面 -->
@@ -268,7 +275,8 @@
     </div>
 
     <!-- 控制按钮 -->
-    <div class="flashcard-controls">
+    <div class="flashcard-controls memphis-controls" style="position: relative;">
+      <div class="memphis-control-decoration" style="position: absolute; top: -20px; left: 20%; width: 10px; height: 10px; background: #4D96FF; border-radius: 50%;"></div>
       <button class="flashcard-btn" onclick="prevCard()">
         ← 上一个
       </button>

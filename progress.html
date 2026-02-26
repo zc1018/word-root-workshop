@@ -9,9 +9,15 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="css/minimal.css">
+  <link rel="stylesheet" href="css/memphis.css">
 </head>
 <body>
+
+  <!-- 孟菲斯风格装饰元素 -->
+  <div class="memphis-decoration" style="position: fixed; top: 100px; right: 6%; width: 50px; height: 50px; background: #FF6B9D; border-radius: 50%; opacity: 0.6; z-index: 1; pointer-events: none;"></div>
+  <div class="memphis-decoration" style="position: fixed; bottom: 20%; left: 4%; width: 40px; height: 40px; background: #6BCB77; transform: rotate(45deg); opacity: 0.5; z-index: 1; pointer-events: none;"></div>
+  <div class="memphis-decoration" style="position: fixed; top: 40%; right: 3%; width: 0; height: 0; border-left: 22px solid transparent; border-right: 22px solid transparent; border-bottom: 40px solid #FFD93D; opacity: 0.6; z-index: 1; pointer-events: none;"></div>
+  <div class="memphis-decoration" style="position: fixed; bottom: 35%; right: 8%; width: 25px; height: 25px; background: #4D96FF; opacity: 0.7; z-index: 1; pointer-events: none;"></div>
 
   <!-- 极简导航 -->
   <nav class="nav">
@@ -36,15 +42,20 @@
   <main style="padding-top: 80px; min-height: 100vh;">
     <div class="container" style="padding-top: 48px; padding-bottom: 48px;">
 
-      <h1 style="font-size: 3rem; font-weight: 700; text-align: center; margin-bottom: 48px; letter-spacing: -0.02em;">
-        我的进度
+      <h1 style="font-size: 3rem; font-weight: 700; text-align: center; margin-bottom: 48px; letter-spacing: -0.02em; position: relative;">
+        <span style="position: relative; display: inline-block;">
+          我的进度
+          <span class="memphis-title-decoration" style="position: absolute; top: -10px; right: -30px; width: 20px; height: 20px; background: #FF6B9D; border-radius: 50%;"></span>
+          <span class="memphis-title-decoration" style="position: absolute; bottom: 5px; left: -20px; width: 15px; height: 15px; background: #FFD93D; transform: rotate(45deg);"></span>
+        </span>
       </h1>
 
       <!-- 统计卡片 -->
       <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 24px; margin-bottom: 48px;">
 
         <!-- 已掌握词根 -->
-        <div class="card" style="text-align: center;">
+        <div class="card" style="text-align: center; position: relative;">
+          <div class="memphis-card-decoration" style="position: absolute; top: -10px; right: -10px; width: 25px; height: 25px; background: #FF6B9D; border-radius: 50%;"></div>
           <div style="font-size: 3rem; font-weight: 700; color: var(--color-text); margin-bottom: 8px;">
             <span id="masteredDisplay">0</span><span style="font-size: 1.5rem; color: var(--color-text-secondary);">/300</span>
           </div>
@@ -52,7 +63,8 @@
         </div>
 
         <!-- 当前等级 -->
-        <div class="card" style="text-align: center;">
+        <div class="card" style="text-align: center; position: relative;">
+          <div class="memphis-card-decoration" style="position: absolute; top: -10px; right: -10px; width: 0; height: 0; border-left: 12px solid transparent; border-right: 12px solid transparent; border-bottom: 22px solid #FFD93D;"></div>
           <div style="font-size: 3rem; font-weight: 700; color: var(--color-text); margin-bottom: 8px;" id="levelDisplay">
             Lv.1
           </div>
@@ -60,7 +72,8 @@
         </div>
 
         <!-- 连续学习天数 -->
-        <div class="card" style="text-align: center;">
+        <div class="card" style="text-align: center; position: relative;">
+          <div class="memphis-card-decoration" style="position: absolute; top: -10px; right: -10px; width: 20px; height: 20px; background: #6BCB77; transform: rotate(45deg);"></div>
           <div style="font-size: 3rem; font-weight: 700; color: var(--color-text); margin-bottom: 8px;" id="streakDisplay">
             0
           </div>
@@ -69,9 +82,13 @@
       </div>
 
       <!-- 进度条 -->
-      <div class="card" style="margin-bottom: 48px;">
+      <div class="card" style="margin-bottom: 48px; position: relative;">
+        <div class="memphis-progress-decoration" style="position: absolute; top: -8px; left: 30%; width: 16px; height: 16px; background: #4D96FF; border-radius: 50%;"></div>
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
-          <h2 style="font-size: 1.125rem; font-weight: 600; margin: 0;">整体进度</h2>
+          <h2 style="font-size: 1.125rem; font-weight: 600; margin: 0; position: relative;">
+            整体进度
+            <span style="position: absolute; bottom: 0; left: 0; width: 100%; height: 4px; background: #FFD93D; z-index: -1;"></span>
+          </h2>
           <span style="font-weight: 600;" id="progressPercentage">0%</span>
         </div>
         <div style="width: 100%; height: 4px; background: var(--color-border); border-radius: 2px; overflow: hidden; margin-bottom: 12px;">

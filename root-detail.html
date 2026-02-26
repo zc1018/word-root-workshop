@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="css/minimal.css">
+  <link rel="stylesheet" href="css/memphis.css">
 
   <style>
     /* 详情页样式 */
@@ -276,6 +276,11 @@
 </head>
 <body>
 
+  <!-- 孟菲斯风格装饰元素 -->
+  <div class="memphis-decoration" style="position: fixed; top: 100px; right: 5%; width: 50px; height: 50px; background: #FF6B9D; border-radius: 50%; opacity: 0.6; z-index: 1; pointer-events: none;"></div>
+  <div class="memphis-decoration" style="position: fixed; bottom: 12%; left: 3%; width: 40px; height: 40px; background: #6BCB77; transform: rotate(45deg); opacity: 0.5; z-index: 1; pointer-events: none;"></div>
+  <div class="memphis-decoration" style="position: fixed; top: 45%; right: 2%; width: 0; height: 0; border-left: 20px solid transparent; border-right: 20px solid transparent; border-bottom: 36px solid #FFD93D; opacity: 0.6; z-index: 1; pointer-events: none;"></div>
+
   <!-- 导航 -->
   <nav class="nav">
     <div class="nav-container">
@@ -296,7 +301,9 @@
   </nav>
 
   <!-- 详情内容 -->
-  <div class="detail-container">
+  <div class="detail-container" style="position: relative;">
+    <div class="memphis-detail-decoration" style="position: absolute; top: 80px; left: 3%; width: 30px; height: 30px; background: #4D96FF; border-radius: 50%; opacity: 0.7; pointer-events: none;"></div>
+
     <a href="roots.html" class="back-link">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <path d="M19 12H5M12 19l-7-7 7-7"/>
@@ -305,8 +312,9 @@
     </a>
 
     <!-- 词根头部 -->
-    <div class="detail-header">
-      <h1 class="root-title" id="rootName">-</h1>
+    <div class="detail-header" style="position: relative;">
+      <div class="memphis-header-decoration" style="position: absolute; top: -20px; right: 20%; width: 20px; height: 20px; background: #FFD93D; transform: rotate(45deg);"></div>
+      <h1 class="root-title" id="rootName" style="position: relative;">-</h1>
       <div class="root-meta">
         <span class="root-origin-tag" id="rootOrigin">Latin</span>
         <span class="root-meaning-main" id="rootMeaning">-</span>
@@ -314,9 +322,10 @@
     </div>
 
     <!-- 详细说明 -->
-    <div class="section">
+    <div class="section" style="position: relative;">
+      <div class="memphis-section-decoration" style="position: absolute; top: 0; right: 15%; width: 15px; height: 15px; background: #FF6B9D; border-radius: 50%;"></div>
       <h2 class="section-title">详细说明</h2>
-      <p class="description-text" id="rootDescription">-</p>
+      <p class="description-text" id="rootDescription" style="position: relative;">-</p>
     </div>
 
     <!-- 例词列表 -->
@@ -328,9 +337,11 @@
     </div>
 
     <!-- 测试题 -->
-    <div class="section">
+    <div class="section" style="position: relative;">
+      <div class="memphis-quiz-decoration" style="position: absolute; top: 0; right: 10%; width: 0; height: 0; border-left: 12px solid transparent; border-right: 12px solid transparent; border-bottom: 22px solid #FFD93D;"></div>
       <h2 class="section-title">小测试</h2>
-      <div class="quiz-section">
+      <div class="quiz-section" style="position: relative;">
+        <div class="memphis-quiz-inner-decoration" style="position: absolute; top: -10px; left: 20px; width: 20px; height: 20px; background: #6BCB77; border-radius: 50%;"></div>
         <div class="quiz-question" id="quizQuestion">-</div>
         <div class="quiz-options" id="quizOptions">
           <!-- 动态生成 -->

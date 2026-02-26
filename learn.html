@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="css/minimal.css">
+  <link rel="stylesheet" href="css/memphis.css">
 
   <style>
     .quiz-option:hover:not(:disabled) {
@@ -23,6 +23,11 @@
   </style>
 </head>
 <body>
+
+  <!-- 孟菲斯风格装饰元素 -->
+  <div class="memphis-decoration" style="position: fixed; top: 100px; right: 5%; width: 50px; height: 50px; background: #FF6B9D; border-radius: 50%; opacity: 0.6; z-index: 1; pointer-events: none;"></div>
+  <div class="memphis-decoration" style="position: fixed; bottom: 10%; left: 3%; width: 35px; height: 35px; background: #6BCB77; transform: rotate(45deg); opacity: 0.5; z-index: 1; pointer-events: none;"></div>
+  <div class="memphis-decoration" style="position: fixed; top: 50%; right: 2%; width: 0; height: 0; border-left: 20px solid transparent; border-right: 20px solid transparent; border-bottom: 35px solid #FFD93D; opacity: 0.6; z-index: 1; pointer-events: none;"></div>
 
   <!-- 极简导航 -->
   <nav class="nav">
@@ -62,7 +67,9 @@
     <div class="container" style="max-width: 900px; padding-top: 64px; padding-bottom: 96px;">
 
       <!-- 词根卡片 -->
-      <div class="card">
+      <div class="card memphis-card" style="position: relative; overflow: visible;">
+        <div class="memphis-card-decoration" style="position: absolute; top: -12px; left: -12px; width: 25px; height: 25px; background: #FF6B9D; border-radius: 50%; z-index: 10;"></div>
+        <div class="memphis-card-decoration" style="position: absolute; bottom: -8px; right: -8px; width: 18px; height: 18px; background: #6BCB77; transform: rotate(45deg); z-index: 10;"></div>
 
         <!-- 加载状态 -->
         <div id="loadingState">
@@ -75,8 +82,9 @@
         <div id="rootContent" style="display: none;">
 
           <!-- 词根标题区域 -->
-          <div style="text-align: center; margin-bottom: 48px; padding-bottom: 32px; border-bottom: 1px solid var(--color-border);">
-            <h1 id="rootName" style="font-size: 3.5rem; font-weight: 700; font-family: 'Courier New', monospace; color: var(--color-text); margin-bottom: 16px; letter-spacing: -0.02em;">
+          <div class="memphis-title-area" style="text-align: center; margin-bottom: 48px; padding-bottom: 32px; border-bottom: 1px solid var(--color-border); position: relative;">
+            <div class="memphis-title-decoration" style="position: absolute; top: 10px; left: 20%; width: 15px; height: 15px; background: #FFD93D; transform: rotate(45deg);"></div>
+            <h1 id="rootName" class="memphis-title" style="font-size: 3.5rem; font-weight: 700; font-family: 'Courier New', monospace; color: var(--color-text); margin-bottom: 16px; letter-spacing: -0.02em; position: relative; display: inline-block;">
               spect
             </h1>
             <div style="display: flex; gap: 24px; justify-content: center; align-items: center; flex-wrap: wrap; font-size: 1rem; color: var(--color-text-secondary);">
@@ -108,13 +116,14 @@
           </div>
 
           <!-- 测试区域 -->
-          <div style="margin-bottom: 48px;">
-            <h2 style="font-size: 1.5rem; font-weight: 600; color: var(--color-text); margin-bottom: 24px; display: flex; align-items: center; gap: 12px;">
+          <div class="memphis-quiz-area" style="margin-bottom: 48px; position: relative;">
+            <div class="memphis-quiz-decoration" style="position: absolute; top: -10px; right: 30px; width: 12px; height: 12px; background: #4D96FF; border-radius: 50%;"></div>
+            <h2 class="memphis-section-title" style="font-size: 1.5rem; font-weight: 600; color: var(--color-text); margin-bottom: 24px; display: flex; align-items: center; gap: 12px;">
               <span style="content: ''; width: 4px; height: 24px; background: var(--color-accent); border-radius: 2px;"></span>
               小测试
             </h2>
 
-            <div style="background: var(--color-bg-secondary); border-radius: 12px; padding: 32px;">
+            <div class="memphis-quiz-box" style="background: var(--color-bg-secondary); border-radius: 12px; padding: 32px; position: relative;">
               <div id="quizQuestion" style="font-size: 1.25rem; font-weight: 600; color: var(--color-text); margin-bottom: 24px;">
                 请选择正确的单词意思：
               </div>
