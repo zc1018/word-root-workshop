@@ -225,6 +225,57 @@ body::before {
   position: relative;
 }
 
+/* ===== 发音按钮 ===== */
+.speak-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: var(--memphis-white);
+  border: 3px solid var(--memphis-black);
+  box-shadow: 2px 2px 0 var(--memphis-black);
+  cursor: pointer;
+  transition: all 200ms ease;
+  margin-left: 12px;
+  vertical-align: middle;
+}
+
+.speak-btn:hover {
+  background: var(--memphis-yellow);
+  transform: translate(-2px, -2px);
+  box-shadow: 4px 4px 0 var(--memphis-black);
+}
+
+.speak-btn:active {
+  transform: translate(0, 0);
+  box-shadow: 1px 1px 0 var(--memphis-black);
+}
+
+.speak-btn svg {
+  width: 20px;
+  height: 20px;
+  fill: var(--memphis-black);
+}
+
+.speak-btn.playing {
+  background: var(--memphis-pink);
+  animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+/* 单词标题带发音按钮 */
+.word-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
 /* ===== 排版系统 ===== */
 
 h1, h2, h3, h4, h5, h6 {
