@@ -744,8 +744,8 @@ p {
 
 .stat-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: var(--space-lg);
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--space-xl);
   margin: var(--space-3xl) 0;
 }
 
@@ -769,11 +769,13 @@ p {
 .stat-card:nth-child(3) { background: var(--memphis-blue); color: white; }
 
 .stat-value {
-  font-size: 3.5rem;
+  font-size: 3rem;
   font-weight: 900;
   color: var(--memphis-black);
   margin-bottom: var(--space-sm);
   text-shadow: 2px 2px 0 var(--memphis-white);
+  white-space: nowrap;
+  overflow: visible;
 }
 
 .stat-card:nth-child(3) .stat-value {
